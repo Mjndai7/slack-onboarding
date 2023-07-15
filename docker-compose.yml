@@ -27,7 +27,7 @@ services:
       - "127.0.0.1:8000:8000"
     environment:
       - DEBUG=True
-      - SECRET_KEY=somethingsupersecret
+      - SECRET_KEY=t9_11ok#=fiarw%=^d2xawb!pd)=+s4(rvar+r&7nj7z6&a=6%
       - BASE_URL=http://0.0.0.0:3000
       - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
       - DEFAULT_FROM_EMAIL=michael@elloe.io
@@ -37,6 +37,7 @@ services:
       - db
     networks:
       - global
+    command: bash -c "python manage.py migrate && gunicorn back.wsgi:application --bind 0.0.0.0:8000"
 
 caddy:
     image: caddy:2.3.0-alpine
