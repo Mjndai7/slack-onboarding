@@ -16,7 +16,10 @@ services:
       - global
 
   web:
+    image: chiefonboarding/chiefonboarding:latest
     restart: always
+    expose:
+      - "8000"
     build:
       dockerfile: ./Dockerfile-dev
       context: ./back/
@@ -35,8 +38,24 @@ services:
     networks:
       - global
 
+caddy:
+    image: caddy:2.3.0-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/site:/srv
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - global
+
 volumes:
   pgdata:
+  caddy_data:
+  caddy_config:
 
 networks:
   global:
